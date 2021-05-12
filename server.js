@@ -11,7 +11,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     const db = client.db('elixa-db')
     const usersCollection = db.collection('usersCollection')
 
-    app.use(bodyParser.urlencoded({ extended: true }))
+    app.use(bodyParser.json())
 
     app.listen(9000, function() {
         console.log('listening on 9000')
@@ -22,10 +22,12 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     app.post("/usersCollection", (request, response) => {
-        usersCollection.insertOne(request.body)
-            .then(result => {
-            response.redirect('/');
-        });
+        console.log(request.body.user_name)
+        async function postUser(){
+            let user = await usersCollection.insertOne(request.body)
+            response.json(user)
+        }
+        postUser()
     }); 
 
 })
