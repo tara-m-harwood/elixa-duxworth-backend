@@ -20,7 +20,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.get('/usersCollection', (request, response) => {
         usersCollection.find().toArray() 
             .then(results => {
-            console.log(results)
             response.send(results)
         })
     })
