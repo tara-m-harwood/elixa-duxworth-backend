@@ -22,15 +22,12 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     app.post("/usersCollection", (request, response) => {
-        usersCollection.insert(request.body, (error, result) => {
-            if(error) {
-                return response.status(500).send(error);
-            }
-            response.send(result.result);
+        usersCollection.insertOne(request.body)
+            .then(result => {
+            response.redirect('/');
         });
     }); 
 
 })
 
-.catch(console.error)
 console.log("Hello Node World")
