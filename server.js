@@ -11,6 +11,8 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
   .then(client => {
     console.log('Connected to Database')
     const db = client.db('elixa-db')
+    const usersCollection = db.collection('usersCollection')
+    console.log(usersCollection)
 
     app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -23,7 +25,11 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     app.post('/quotes', (req, res) => {
-        console.log(req.body)
+        usersCollection.insertOne(req.body)
+            .then( result => {
+                console.log(result)
+            })
+            .catch(error => console.error(error))
     })
 
 })
