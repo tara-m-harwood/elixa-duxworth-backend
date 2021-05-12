@@ -17,16 +17,16 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         console.log('listening on 9000')
     })
 
-    app.get('/usersCollection', (request, result) => {
-        const cursor = db.collection('usersCollection').find().toArray()
-        .then(results => {
+    app.get('/usersCollection', (request, response) => {
+        usersCollection.find().toArray() 
+            .then(results => {
             console.log(results)
-            })
-        .catch(error => console.error(error))
+            response.send(results)
+        })
     })
 
     app.post("/usersCollection", (request, response) => {
-        console.log(request.body.user_name)
+        console.log(request.body)
         async function postUser(){
             let user = await usersCollection.insertOne(request.body)
             response.json(user)
