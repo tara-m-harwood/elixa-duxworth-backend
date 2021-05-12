@@ -17,8 +17,12 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         console.log('listening on 9000')
     })
 
-    app.get('/', (request, result) => {
-        result.sendFile(__dirname + '/index.html')
+    app.get('/usersCollection', (request, result) => {
+        const cursor = db.collection('usersCollection').find().toArray()
+        .then(results => {
+            console.log(results)
+            })
+        .catch(error => console.error(error))
     })
 
     app.post("/usersCollection", (request, response) => {
